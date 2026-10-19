@@ -1,0 +1,6 @@
+{
+  "name": "south-park-snow-day",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test", "preview": "python -m http.server 8080" }
+}

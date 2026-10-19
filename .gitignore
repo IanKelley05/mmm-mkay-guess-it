@@ -1,0 +1,33 @@
+.browser-profile/
+artifacts/
+node_modules/
+__pycache__/
+*.log
+
+# Credentials, machine-specific configuration, and editor state
+.env
+.env.*
+!.env.example
+.aws/
+.ssh/
+.codex/
+.agents/
+.vscode/
+.idea/
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+.venv/
+venv/
+.pytest_cache/
+
+# Retired artwork, no longer referenced by the game
+assets/snowflake.svg
+assets/characters/*.svg

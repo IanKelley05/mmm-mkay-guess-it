@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#284e3c">
+  <meta name="description" content="A South Park guessing game for two, wherever you are. Describe, guess, and race the clock.">
+  <title>Mmm-Mkay? Guess It! · South Park guessing game</title>
+  <link rel="icon" href="assets/kenny-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="assets/kenny-favicon-16.png" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" href="assets/kenny-touch-icon.png" sizes="180x180">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <div class="scenery" aria-hidden="true"></div>
+  <header class="site-header"><a class="brand" href="./">Mmm-Mkay? <span>Guess It!</span></a><span class="header-note">TWO PEOPLE. ONE VERY WEIRD TOWN.</span></header>
+  <main>
+    <section id="setup" class="setup-layout" aria-labelledby="setup-title">
+      <div class="intro">
+        <span class="eyebrow"><span class="live-dot"></span> WELCOME TO THE NEIGHBORHOOD</span>
+        <h1 id="setup-title">Heads Up:<br><span>South Park Edition</span></h1>
+        <p class="intro-copy">Your favorite South Park faces.<br>Your favorite person on the other end.</p>
+        <ol class="rules"><li><span>01</span><div><strong>You describe.</strong><p>Give clues without saying the character’s name.</p></div></li><li><span>02</span><div><strong>They guess.</strong><p>Keep talking on your usual video call.</p></div></li><li><span>03</span><div><strong>Beat the clock.</strong><p>Get as many as you can. Then swap roles!</p></div></li></ol>
+
+      </div>
+      <div class="setup-right">
+        <form id="setup-form" class="panel setup-panel" novalidate>
+          <div class="panel-heading"><span class="eyebrow">LET’S PLAY</span><span class="deck-badge"><span id="deck-count">48</span> characters</span></div>
+          <h2>Ready, buddy?</h2><p class="muted">Pick your round. Gather your people. Get guessing.</p>
+          <fieldset><legend>Round length</legend><div class="duration-options">
+            <label><input type="radio" name="duration" value="30"><span>30<small>sec</small></span></label>
+            <label><input type="radio" name="duration" value="60" checked><span>60<small>sec</small></span></label>
+            <label><input type="radio" name="duration" value="90"><span>90<small>sec</small></span></label>
+            <label><input type="radio" name="duration" value="120"><span>120<small>sec</small></span></label>
+            <label><input type="radio" name="duration" value="custom"><span class="custom-option">Custom</span></label>
+          </div></fieldset>
+          <div id="custom-wrap" hidden><label for="custom-duration">Custom seconds <span class="optional">(10–600, whole numbers)</span></label><input id="custom-duration" type="number" min="10" max="600" step="1" inputmode="numeric" value="60" aria-describedby="duration-error"><p id="duration-error" class="error" role="alert"></p></div>
+          <div class="names"><div><label for="describer">Describer <span class="optional">(optional)</span></label><input id="describer" maxlength="40" placeholder="Your name" autocomplete="off"></div><div><label for="guesser">Guesser <span class="optional">(optional)</span></label><input id="guesser" maxlength="40" placeholder="Their name" autocomplete="off"></div></div>
+          <div class="privacy-note"><span aria-hidden="true">◉</span><p><strong>For the describer’s eyes only.</strong><br>Don’t share this screen with the guesser.</p></div>
+          <button id="start" class="button primary full" type="submit">Start Round <span aria-hidden="true">→</span></button>
+          <p class="under-button">Get ready with a 3–2–1 countdown.</p>
+          <details class="asset-note"><summary>About the character artwork</summary><p>All 48 characters have locally bundled portraits. This is an unofficial fan game; South Park artwork belongs to its respective owners. See IMAGE_SOURCES.md for artwork sources.</p></details>
+        </form>
+        <div class="together-note">♡ &nbsp; Different places. Same ridiculous clues.</div>
+      </div>
+    </section>
+
+    <section id="preparing" class="panel centered" hidden aria-labelledby="prepare-title"><span class="eyebrow">THE GUESSER SHOULD LOOK AWAY</span><h1 id="prepare-title" tabindex="-1">Getting the gang together…</h1><p id="prepare-status" role="status">Loading character cards before the clock starts.</p><div id="countdown" aria-live="assertive" aria-atomic="true"></div><p id="prepare-players"></p></section>
+
+    <section id="game" class="game-layout" hidden aria-labelledby="character-name">
+      <div class="round-top"><p id="round-players"></p><span class="eyebrow">DESCRIBER’S EYES ONLY</span></div>
+      <div class="scoreboard"><div><span class="stat-label">CORRECT</span><strong id="correct-count">0</strong></div><div id="timer-box" class="timer-box"><span id="timer-label" class="stat-label">TIME LEFT</span><strong id="timer" role="timer" aria-label="Seconds remaining">60</strong></div><div><span class="stat-label">SKIPPED</span><strong id="skip-count">0</strong></div></div>
+      <div class="time-track" aria-hidden="true"><div id="time-bar"></div></div>
+      <article class="panel character-card"><div class="card-topline"><span class="eyebrow">WHO’S IN SOUTH PARK?</span><span id="card-position"></span></div><div id="character-art" class="character-art"></div><h1 id="character-name" tabindex="-1"></h1><p>Describe this character. Don’t say their name!</p></article>
+      <div class="game-actions"><button id="skip" class="button skip" type="button"><span>Skip <small>No point, next character</small></span><kbd>←</kbd></button><button id="correct" class="button correct" type="button"><span>Correct! <small>One point, next character</small></span><kbd>→</kbd></button></div>
+      <p class="game-hint">Use <kbd>←</kbd> to skip · <kbd>→</kbd> for correct · One press per character</p>
+      <p id="round-announcement" class="sr-only" role="status"></p>
+    </section>
+
+    <section id="results" hidden aria-labelledby="results-title">
+      <div class="panel results-panel"><span class="eyebrow">THAT’S A WRAP, BUDDY.</span><h1 id="results-title" tabindex="-1">What a round!</h1><p id="end-reason" class="muted"></p><div class="final-score"><strong id="final-score">0</strong><span>characters guessed</span></div><p id="result-players"></p><div class="result-stats"><span><strong id="result-duration"></strong> seconds selected</span><span><strong id="result-skipped"></strong> skipped</span></div><div class="result-actions"><button id="replay" class="button primary" type="button">Play Again <span aria-hidden="true">↻</span></button><button id="switch" class="button secondary" type="button">Switch Roles <span aria-hidden="true">⇄</span></button><button id="back" class="text-button" type="button">Back to Setup</button></div></div>
+      <div class="review-grid"><section class="panel review"><h2>Got ’em! <span id="correct-total"></span></h2><ul id="correct-list" class="character-list"></ul></section><section class="panel review"><h2>Maybe next time <span id="skip-total"></span></h2><ul id="skip-list" class="character-list"></ul></section></div><section id="unfinished-section" class="panel review unfinished" hidden><h2>Left on the card</h2><p class="muted">Time ran out. This character wasn’t counted.</p><ul id="unfinished-list" class="character-list"></ul></section>
+    </section>
+
+    <section id="history-section" class="history-section" aria-labelledby="history-title"><div class="history-heading"><div><span class="eyebrow">YOUR FRIENDLY RIVALRY</span><h2 id="history-title">Tonight’s scoreboard</h2></div><button id="clear-history" class="text-button" type="button" disabled>Clear history</button></div><p class="muted history-help">Saved in this browser, including earlier visits. Compare rounds of the same length.</p><p id="history-empty" class="empty-history">Fresh snow. A clean scoreboard. Who’s up first?</p><div id="history-table-wrap" class="table-wrap" hidden><table><caption class="sr-only">Previous rounds, newest first</caption><thead><tr><th>Round</th><th>Guesser</th><th>Length</th><th>Correct</th><th>Skipped</th></tr></thead><tbody id="history-body"></tbody></table></div></section>
+    <p id="storage-message" class="storage-message" role="status"></p>
+  </main>
+  <footer><span>MADE FOR YOUR NEXT “ONE MORE ROUND.”</span><span>Unofficial fan game · South Park belongs to its respective owners.</span></footer>
+  <noscript>This game needs JavaScript enabled to run rounds and keep score.</noscript>
+</body>
+</html>
